@@ -5,4 +5,6 @@ export type LocalCard = {
   description: string;
   imageUrl: string;
   colorCode : string;
+  hint : string;
+  type : number;
 };

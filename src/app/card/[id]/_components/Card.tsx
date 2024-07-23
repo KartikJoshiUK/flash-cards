@@ -3,12 +3,12 @@ import { Card as CardType } from "@prisma/client";
 import React, { useState } from "react";
 import ToolTip from "../../../../components/ToolTip";
 import { MdFlip } from "react-icons/md";
-import { BiEdit } from "react-icons/bi";
+import { BiCheck, BiEdit } from "react-icons/bi";
 import Modal from "@/components/Modal";
-import { Button, TextField } from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import { LocalCard } from "@/types";
 import { editCard } from "@/app/actions/editCard";
-
+import { colors } from "../../../../utils/constants";
 type Props = {
   card: CardType;
   editable?: boolean;
@@ -19,15 +19,13 @@ export default function Card({ card, editable }: Props) {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [newCard, setNewCard] = useState<LocalCard>(card);
 
-  const handleEditCard = async (_ : React.FormEvent<HTMLFormElement>)=>{
+  const handleEditCard = async (_: React.FormEvent<HTMLFormElement>) => {
     await editCard(newCard, card.id);
     setEditModalOpen(false);
-  }
+  };
   return (
     <div
-      className={`rounded-xl shadow-xl w-72 h-44 flex relative transition-all duration-300 ${
-        revealed ? "flex-col" : "flex-row items-center justify-center"
-      }`}
+      className={`rounded-xl shadow-xl w-96 h-52 relative transition-all duration-300`}
       style={{
         backgroundColor: card.colorCode,
         color: card.colorCode >= "#ffffff" ? "#000000" : "#ffffff",
@@ -76,17 +74,36 @@ export default function Card({ card, editable }: Props) {
                   onSubmit={handleEditCard}
                 >
                   <TextField
-                    placeholder="Title"
+                    select
+                    placeholder="Question type"
+                    label="Question type"
+                    variant="filled"
+                    value={newCard.type}
+                    onChange={(e) =>
+                      setNewCard({ ...newCard, type: Number(e.target.value) })
+                    }
+                  >
+                    <MenuItem value={1}>Image as question</MenuItem>
+                    <MenuItem value={2}>Word as question</MenuItem>
+                    <MenuItem value={3}>Both image and word</MenuItem>
+                  </TextField>
+
+                  <TextField
+                    placeholder="Enter the word"
                     variant="standard"
                     name="title"
+                    label="Title"
+                    required
                     value={newCard.title}
                     onChange={(e) =>
                       setNewCard((prev) => ({ ...prev, title: e.target.value }))
                     }
                   />
                   <TextField
-                    placeholder="Description"
+                    placeholder="Write the meaning/description of the word"
+                    label="Description *"
                     variant="standard"
+                    required
                     name="description"
                     value={newCard.description}
                     onChange={(e) =>
@@ -97,9 +114,21 @@ export default function Card({ card, editable }: Props) {
                     }
                   />
                   <TextField
-                    placeholder="Image URL"
+                    placeholder="Animal"
+                    label="Hint (optional)"
+                    variant="standard"
+                    name="hint"
+                    value={newCard.hint}
+                    onChange={(e) =>
+                      setNewCard((prev) => ({ ...prev, hint: e.target.value }))
+                    }
+                  />
+                  <TextField
+                    placeholder="https://www.image.com"
+                    label="Image URL *"
                     variant="standard"
                     name="imageUrl"
+                    required
                     value={newCard.imageUrl}
                     onChange={(e) =>
                       setNewCard((prev) => ({
@@ -108,26 +137,32 @@ export default function Card({ card, editable }: Props) {
                       }))
                     }
                   />
-                  <TextField
-                    placeholder="Background color"
-                    variant="standard"
-                    name="colorCode"
-                    type="color"
-                    value={newCard.colorCode}
-                    onChange={(e) =>
-                      setNewCard((prev) => ({
-                        ...prev,
-                        colorCode: e.target.value,
-                      }))
-                    }
-                  />
+                  <div className="flex gap-2 justify-center flex-wrap">
+                    {colors.map((color) => (
+                      <button
+                        key={color}
+                        type="button"
+                        onClick={() =>
+                          setNewCard((prev) => ({ ...prev, colorCode: color }))
+                        }
+                        className={`w-8 h-8 rounded-full border flex items-center justify-center ${
+                          newCard.colorCode === color
+                            ? "border-black"
+                            : "scale-90 border-gray-300"
+                        }`}
+                        style={{ backgroundColor: color }}
+                      >
+                        {newCard.colorCode === color && <BiCheck />}
+                      </button>
+                    ))}
+                  </div>
                   <Button
                     type="submit"
                     variant="contained"
                     color="primary"
                     className="self-end"
                   >
-                    Cofirm
+                    Confirm
                   </Button>
                 </form>
               </Modal>
@@ -135,11 +170,22 @@ export default function Card({ card, editable }: Props) {
           )}
         </div>
       ) : (
-        <div className="p-6">
-          <h1 className="font-bold text-2xl">{card.title}</h1>
+        <div className={`w-full h-full overflow-hidden rounded-xl ${card.type === 1 && ""} ${card.type === 2 && "flex items-center justify-center"} ${card.type === 3 && ""}`}>
+          {card.type === 1 && (
+            <img className="w-full h-full object-contain" src={card.imageUrl} alt="word" />
+          )}
+          {card.type === 2 && (
+            <h1 className="font-bold text-3xl">{card.title}</h1>
+          )}
+          {card.type === 3 && (
+            <div className="w-full h-full flex">
+              <img className="w-1/2 object-contain" src={card.imageUrl} alt="word" />
+              <h1 className="w-1/2 flex items-center justify-center font-bold text-3xl">{card.title}</h1>
+            </div>
+          )}
           <ToolTip
             className="ml-2 absolute top-4 right-4 z-10"
-            text={card.category}
+            text={card.hint || card.category}
           />
         </div>
       )}

@@ -100,7 +100,7 @@ export default function Actions({categories}: Props) {
             }}
           >
             {categories.map((category) => (
-              <MenuItem key={category} value={category}>
+              <MenuItem className="capitalize" key={category} value={category}>
                 {category}
               </MenuItem>
             ))}

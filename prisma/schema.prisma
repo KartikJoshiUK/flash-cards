@@ -22,4 +22,6 @@ model Card {
   description String
   imageUrl    String
   colorCode   String
+  hint        String
+  type        Int
 }

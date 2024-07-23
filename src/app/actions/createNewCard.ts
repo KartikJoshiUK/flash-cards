@@ -11,7 +11,9 @@ export const createNewCard = async (card : LocalCard) => {
       title: card.title,
       description: card.description,
       imageUrl: card.imageUrl,
-      colorCode : card.colorCode
+      colorCode : card.colorCode,
+      hint : card.hint,
+      type : card.type
     },
   });
 };

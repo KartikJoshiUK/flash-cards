@@ -9,9 +9,9 @@ export default async function Categories({categories}: Props) {
     
     
   return (
-    <div className='flex p-6 flex-col gap-4'>
+    <div className='flex p-6 flex-wrap gap-4 justify-center'>
         {categories?.map((category) => (
-            <Link href={`/dashboard/${category}`} className='text-xl bg-gray-100 p-4 rounded-md hover:bg-gray-50 transition-colors capitalize text-center' key={category}>{category}</Link>
+            <Link href={`/dashboard/${category}`} className='min-w-52 text-xl bg-gray-200 p-4 rounded-md hover:bg-gray-100 transition-colors capitalize text-center hover:shadow-xl' key={category}>{category}</Link>
         ))}
     </div>
   )

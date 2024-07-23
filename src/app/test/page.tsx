@@ -24,7 +24,7 @@ export default async function page({
     }
   })
   
-  return <div className="flex flex-col items-center gap-4 p-6">
+  return <div className="flex items-center gap-4 p-6 flex-wrap justify-center">
     {cards.map((card) => (
         <Card key={card.id} card={card}/>
     ))}
