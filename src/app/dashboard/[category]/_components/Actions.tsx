@@ -42,7 +42,7 @@ export default function Actions({ category }: Props) {
         <BiPlus />
       </button>
       <Modal
-        className="w-4/5 max-w-3xl"
+        
         title="Create new card"
         onClose={() => setNewCardModal(false)}
         isOpen={newCardModal}

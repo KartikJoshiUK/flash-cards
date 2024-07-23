@@ -18,7 +18,7 @@ const Modal = (props: Props) => {
         <div className="fixed top-0 left-0 w-full h-full bg-black/10" onClick={props.onClose}>
           <div
             className={
-              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col text-center bg-gray-50 shadow-md rounded-md overflow-hidden" + " "  + props.className
+              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col text-center bg-gray-50 shadow-md rounded-md overflow-hidden w-[700px] max-w-[90%]" + " "  + props.className
             }
             onClick={(e) => e.stopPropagation()}
           >

@@ -50,7 +50,7 @@ export default function Actions({categories}: Props) {
       </button>
       <Modal
         title="Create new category"
-        className="w-4/5 max-w-3xl"
+        
         onClose={() => setNewCategoryModal(false)}
         isOpen={newCategoryModal}
       >
@@ -84,7 +84,7 @@ export default function Actions({categories}: Props) {
       </button>
       <Modal
         title="Create new test"
-        className="w-4/5 max-w-3xl"
+        
         isOpen={testCreationModal}
         onClose={() => setTestCreationModal(false)}
       >
