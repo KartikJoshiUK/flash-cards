@@ -7,12 +7,14 @@ import { createNewCategory } from "@/app/actions/createNewCategory";
 import { useAuth } from "@clerk/nextjs/app-beta/client";
 import { PiExam } from "react-icons/pi";
 import { useRouter } from "next/navigation";
+import AddCategoryModal from "@/components/modals/AddCategoryModal";
+import GenerateTestModal from "@/components/modals/GenerateTestModal";
 
 type Props = {
   categories : string[]
 };
 
-type TestForm = {
+export type TestForm = {
   categories: any;
 };
 const initialForm = {
@@ -54,26 +56,7 @@ export default function Actions({categories}: Props) {
         onClose={() => setNewCategoryModal(false)}
         isOpen={newCategoryModal}
       >
-        <form
-          className="p-4 flex flex-col gap-2"
-          onSubmit={handleCreateNewCategory}
-        >
-          <TextField
-            placeholder="Category name"
-            variant="standard"
-            name="category"
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className="self-end"
-          >
-            Create
-          </Button>
-        </form>
+        <AddCategoryModal category={newCategory} setCategory={setNewCategory} handleSubmit={handleCreateNewCategory}/>
       </Modal>
       <button
         className="bg-green-800 rounded-md hover:bg-green-900 p-2 px-4 text-white flex gap-2 items-center"
@@ -84,36 +67,10 @@ export default function Actions({categories}: Props) {
       </button>
       <Modal
         title="Create new test"
-        
         isOpen={testCreationModal}
         onClose={() => setTestCreationModal(false)}
       >
-        <form className="p-4 flex flex-col gap-2" onSubmit={handleTestCreation}>
-          <TextField
-            label="Select Categories"
-            select
-            value={testForm.categories}
-            onChange={(e) => setTestForm((prev) => ({ ...prev, categories: e.target.value }))}
-            fullWidth
-            SelectProps={{
-              multiple: true,
-            }}
-          >
-            {categories.map((category) => (
-              <MenuItem className="capitalize" key={category} value={category}>
-                {category}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className="self-end"
-          >
-            Start
-          </Button>
-        </form>
+        <GenerateTestModal testForm={testForm} setTestForm={setTestForm} handleSubmit={handleTestCreation} categories={categories}/>
       </Modal>
     </div>
   );
