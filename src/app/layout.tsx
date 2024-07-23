@@ -5,6 +5,13 @@ import {
 import './globals.css'
 import Header from './_home/Header'
 import Footer from './_home/Footer'
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'FlashCardFlow',
+  description: 'Master the Art of Words, One Flashcard at a Time',
+};
+
 export default function RootLayout({
   children,
 }: {
