@@ -5,12 +5,12 @@ import React from "react";
 import { BiCheck } from "react-icons/bi";
 
 type Props = {
-    handleSubmit : (e: React.FormEvent<HTMLFormElement>) => void;
-    card : LocalCard;
-    setCard : React.Dispatch<React.SetStateAction<LocalCard>>;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  card: LocalCard;
+  setCard: React.Dispatch<React.SetStateAction<LocalCard>>;
 };
 
-export default function CardModal({handleSubmit, card,setCard}: Props) {
+export default function CardModal({ handleSubmit, card, setCard }: Props) {
   return (
     <form className="p-4 flex flex-col gap-2" onSubmit={handleSubmit}>
       <TextField
@@ -19,9 +19,7 @@ export default function CardModal({handleSubmit, card,setCard}: Props) {
         label="Question type"
         variant="filled"
         value={card.type}
-        onChange={(e) =>
-          setCard({ ...card, type: Number(e.target.value) })
-        }
+        onChange={(e) => setCard({ ...card, type: Number(e.target.value) })}
       >
         <MenuItem value={1}>Image as question</MenuItem>
         <MenuItem value={2}>Word as question</MenuItem>
@@ -41,7 +39,7 @@ export default function CardModal({handleSubmit, card,setCard}: Props) {
       />
       <TextField
         placeholder="Write the meaning/description of the word"
-        label="Description *"
+        label="Description"
         variant="standard"
         required
         name="description"
@@ -59,16 +57,14 @@ export default function CardModal({handleSubmit, card,setCard}: Props) {
         variant="standard"
         name="hint"
         value={card.hint}
-        onChange={(e) =>
-          setCard((prev) => ({ ...prev, hint: e.target.value }))
-        }
+        onChange={(e) => setCard((prev) => ({ ...prev, hint: e.target.value }))}
       />
       <TextField
         placeholder="https://www.image.com"
-        label="Image URL *"
+        label="Image URL"
         variant="standard"
         name="imageUrl"
-        required
+        required={card.type !== 2}
         value={card.imageUrl}
         onChange={(e) =>
           setCard((prev) => ({
@@ -82,9 +78,7 @@ export default function CardModal({handleSubmit, card,setCard}: Props) {
           <button
             key={color}
             type="button"
-            onClick={() =>
-              setCard((prev) => ({ ...prev, colorCode: color }))
-            }
+            onClick={() => setCard((prev) => ({ ...prev, colorCode: color }))}
             className={`w-8 h-8 rounded-full border flex items-center justify-center ${
               card.colorCode === color
                 ? "border-black"

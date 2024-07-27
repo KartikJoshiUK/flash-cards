@@ -3,7 +3,7 @@ import { Card as CardType } from "@prisma/client";
 import React, { useState } from "react";
 import ToolTip from "../../../../components/ToolTip";
 import { MdFlip } from "react-icons/md";
-import {  BiEdit } from "react-icons/bi";
+import { BiEdit } from "react-icons/bi";
 import Modal from "@/components/Modal";
 import { LocalCard } from "@/types";
 import { editCard } from "@/app/actions/editCard";
@@ -28,7 +28,6 @@ export default function Card({ card, editable }: Props) {
       className={`${styles.card} ${
         revealed ? styles.cardRotate : ""
       } rounded-xl w-96 h-52 relative transition-all duration-500`}
-      
     >
       <div
         className={`${styles.cardBack} flex h-full w-full rounded-xl overflow-hidden relative shadow-xl`}
@@ -37,11 +36,13 @@ export default function Card({ card, editable }: Props) {
           color: card.colorCode >= "#ffffff" ? "#000000" : "#ffffff",
         }}
       >
-        <img
-          className="w-1/2 h-full object-cover"
-          src={card.imageUrl}
-          alt={card.title}
-        />
+        {(card.type !== 2 || card.imageUrl) && (
+          <img
+            className="w-1/2 h-full object-cover"
+            src={card.imageUrl}
+            alt={card.title}
+          />
+        )}
         <div className="text-start flex flex-col w-full">
           <h1 className="font-semibold p-2 bg-black text-center text-white">
             {card.title}
@@ -67,7 +68,11 @@ export default function Card({ card, editable }: Props) {
               onClose={() => setEditModalOpen(false)}
               title="Edit Card"
             >
-              <CardModal card={newCard} setCard={setNewCard} handleSubmit={handleEditCard} />
+              <CardModal
+                card={newCard}
+                setCard={setNewCard}
+                handleSubmit={handleEditCard}
+              />
             </Modal>
           </button>
         )}
@@ -86,9 +91,11 @@ export default function Card({ card, editable }: Props) {
       <div
         className={`${
           styles.cardFront
-        } w-full h-full overflow-hidden rounded-xl shadow-xl ${card.type === 1 && ""} ${
-          card.type === 2 && "flex items-center justify-center"
-        } ${card.type === 3 && ""}`}
+        } w-full h-full overflow-hidden rounded-xl shadow-xl ${
+          card.type === 1 && ""
+        } ${card.type === 2 && "flex items-center justify-center"} ${
+          card.type === 3 && ""
+        }`}
         style={{
           backgroundColor: card.colorCode,
           color: card.colorCode >= "#ffffff" ? "#000000" : "#ffffff",
